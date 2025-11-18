@@ -30,8 +30,7 @@ def update_level(current_level):
     emptylistactors=[]
     for i in item2:
         item=Actor(i+"r")
-        emptylistactors.append(item)
-        
+        emptylistactors.append(item)    
     arrange_item(emptylistactors)
     animate_items(emptylistactors)
     return emptylistactors
@@ -40,6 +39,7 @@ def arrange_item(items_list):
     gap_size=1000/no_gaps
     for i,item in enumerate(items_list):
         item.x=(i+1)*gap_size
+        
 def animate_items(items_list):
     global animation
     for i in items_list:
@@ -54,9 +54,18 @@ def on_mouse_down(pos):
     for i in items_list:
         if i.collidepoint(pos):
             if "green" in i.image:
-                handle_game_complete
+                handle_game_complete()
             else:
-                handle_game_over
+                handle_game_over()
 def handle_game_complete():
-    pass
+   global current_level,game_complete,animation,items_list
+   for i in animation:
+       if i.running:
+           i.stop()
+   if current_level==number_of_levels:
+       game_complete=True
+   else:
+       current_level=current_level+1
+       items_list=[]
+       animation=[]     
 pgzrun.go()
