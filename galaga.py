@@ -16,7 +16,7 @@ def draw():
     actor1.draw()
     for i in bullets:
         i.draw()
-    for i in enemies:
+    for i in enemiess:
         i.draw()
     screen.draw.text(str(score),(0,0))
 def update():
@@ -51,7 +51,7 @@ def update():
         move_down=True
         direction=direction*-1
 
-    for i in enemies:
+    for i in enemiess:
         i.x=i.x+5*direction
         if move_down==True:
             i.y=i.y+50
@@ -60,7 +60,7 @@ def update():
                 if i.colliderect(j):
                     
                     bullets.remove(j)
-                    enemies.remove(i)
+                    enemiess.remove(i)
                     score=score+1
 
 
@@ -76,10 +76,7 @@ def on_key_down(key):
       bullets[-1].y=actor1.y-50
       sounds.eep.play()
 
-enemies=[]
-enemies.append(actor2)
-enemies[-1].x=500
-enemies[-1].y=0
+
 
 
 
