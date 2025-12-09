@@ -1,4 +1,9 @@
 What is the capital of Sri Lanka?, Colombo, Jaffna, California, London,1
+What is the only U.S. state that can be typed using only one row of a standard QWERTY keyboard?,California,Alaska,Texas,New York,2. 
+Which ear did Vincent Van Gogh cut off?,Left ear,right ear,neither,both,1. 
+What is the only mammal that can fly?,Aardvark,Baboon,Camel,Bat,4. 
+What was the first toy advertised on TV?,Barbie dolls,Lego sets,Mr. Potato Head,G.I. Joe,3. 
+What is the capital of France?,Marseille,Paris,Nice,Lyon,2. 
 
 
 
