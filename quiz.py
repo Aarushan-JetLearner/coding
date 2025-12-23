@@ -1,6 +1,9 @@
+import pgzrun,random
 import pgzrun,time
 WIDTH=1000
 HEIGHT=500
+Welcome=Rect(0,0,800,60)
+Question=Rect(5,75,500,150)
 Welcome=Rect(0,0,1000,60)
 Question=Rect(5,75,800,150)
 Timer=Rect(850,100,150,150)
@@ -22,6 +25,7 @@ def draw():
     screen.draw.textbox("Welcome to Quiz Master.",Welcome,color="white",shadow=(0.5,0.5),scolor="grey")
     screen.draw.textbox(str(timer),Timer,color="white",shadow=(0.5,0.5),scolor="black")
     screen.draw.textbox("Skip",Skip,color="white",angle=90,shadow=(0.5,0.5),scolor="blue")
+    screen.draw.textbox(qu[0],Question,color="white")
 def update():
     Welcome.x=Welcome.x-2
     if Welcome.right<0:
@@ -39,8 +43,29 @@ def changing_time():
     
     else:
         timer=0
-clock.schedule_interval(changing_time,1)
 file_data=[]
+file="C:/Users/janur/Downloads/Microsoft VS Code/jetlearn/questions.txt"
+def data_read():
+    global file_data
+    opened=open(file,"r")
+    for i in opened:
+        file_data.append(i)
+        print(i)
+    opened.close()
+    print(file_data)
+def read_q():
+    random.shuffle(file_data)
+    print(file_data)
+    return file_data.pop(0).split(",")
+
+
+data_read()
+qu=read_q()
+
+
+
+clock.schedule_interval(changing_time,1)
+
 
 
     
