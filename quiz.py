@@ -60,13 +60,40 @@ def read_q():
 
 
 def on_mouse_down(pos):
-    index=1
     global score
+    message="Game over Score="+str(score)
+    index=1
+    
+    global qu
+    global timer
+    if Skip.collidepoint(pos):
+        if len(file_data)>0:
+            qu=read_q()
+            timer=15
+        else:
+            qu=[message,"-","-","-","-",5]
+            timer=0
+
+        
     for i in option_boxes:
         if i.collidepoint(pos):
             if index is int(qu[5]):
                 score=score+1
                 print(score)
+
+                if len(file_data)>0:
+                    qu=read_q()
+                    timer=15
+                else:
+                    
+                    qu=[message,"-","-","-","-",5]
+                    timer=0
+            else:
+                qu=[message,"-","-","-","-",5]
+                timer=0
+
+            
+
         index=index+1
 
 qu=read_q()
