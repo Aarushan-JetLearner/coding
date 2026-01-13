@@ -1,16 +1,10 @@
-import pgzrun
-WIDTH=500
-HEIGHT=500
-def draw():
-    length=250
-    width=200
-    for i in range(5):
-        rectangle=Rect((0,0),(length,width))
-        rectangle.center=250,250
-        screen.draw.rect(rectangle,"blue")
-        length=length-25
-        width=width-25
-        
-        
-
-pgzrun.go()
+import pygame
+pygame.init()
+screen=pygame.display.set_mode((1000,1000))
+pygame.display.set_caption("Rectangle")
+screen.fill("blue")
+pygame.display.update()
+while True:
+    for event in pygame.event.get():
+        if event.type==pygame.QUIT:
+            pygame.quit()
