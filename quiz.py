@@ -1,10 +1,7 @@
-import pgzrun,random
-import pgzrun,time
+import pgzrun,time,random
 WIDTH=1000
 HEIGHT=500
 score=0
-Welcome=Rect(0,0,800,60)
-Question=Rect(5,75,500,150)
 Welcome=Rect(0,0,1000,60)
 Question=Rect(5,75,800,150)
 Timer=Rect(850,100,150,150)
@@ -32,6 +29,7 @@ def draw():
     screen.draw.textbox(qu[2],Option2,color="white")
     screen.draw.textbox(qu[3],Option3,color="white")
     screen.draw.textbox(qu[4],Option4,color="white")
+    
 def update():
     Welcome.x=Welcome.x-2
     if Welcome.right<0:
@@ -49,21 +47,18 @@ def changing_time():
     
     else:
         timer=0
-file_data=["What is the capital of Sri Lanka?,Colombo,Jaffna,California,London,1","What is the only U.S. state that can be typed using only one row of a standard QWERTY keyboard?,California,Alaska,Texas,New York,2","Which ear did Vincent Van Gogh cut off?,Left ear,right ear,neither,both,1","What is the only mammal that can fly?,Aardvark,Baboon,Camel,Bat,4","What was the first toy advertised on TV?,Barbie dolls,Lego sets,Mr. Potato Head,G.I. Joe,3","What is the capital of France?,Marseille,Paris,Nice,Lyon,2"]
 
+        
+file_data=["What is the capital of Sri Lanka?, Colombo, Jaffna, California, London,1","What is the only U.S. state that can be typed using only one row of a standard QWERTY keyboard?,California,Alaska,Texas,New York,2", "Which ear did Vincent Van Gogh cut off?,Left ear,right ear,neither,both,1", "What is the only mammal that can fly?,Aardvark,Baboon,Camel,Bat,4" ,"What was the first toy advertised on TV?,Barbie dolls,Lego sets,Mr. Potato Head,G.I. Joe,3", "What is the capital of France?,Marseille,Paris,Nice,Lyon,2"]
 
 def read_q():
     random.shuffle(file_data)
     print(file_data)
     return file_data.pop(0).split(",")
-
-
-
 def on_mouse_down(pos):
     global score
-    message="Game over Score="+str(score)
+    message="Game over Score"+str(score)
     index=1
-    
     global qu
     global timer
     if Skip.collidepoint(pos):
@@ -73,37 +68,21 @@ def on_mouse_down(pos):
         else:
             qu=[message,"-","-","-","-",5]
             timer=0
-
-        
     for i in option_boxes:
+
         if i.collidepoint(pos):
-            if index is int(qu[5]):
+            if index ==int(qu[5]):
                 score=score+1
                 print(score)
-
                 if len(file_data)>0:
                     qu=read_q()
                     timer=15
                 else:
-                    
                     qu=[message,"-","-","-","-",5]
                     timer=0
-            else:
-                qu=[message,"-","-","-","-",5]
-                timer=0
-
-            
-
         index=index+1
-
 qu=read_q()
 
-
-
-clock.schedule_interval(changing_time,1)
-
-
-
-    
+clock.schedule_interval(changing_time,1) 
 
 pgzrun.go()
