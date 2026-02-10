@@ -12,9 +12,13 @@ class Circle():
     def draw_again(self,radius):
         self.radius=self.radius+radius
         self.draw_circle()
+    def draw_with_pos(self,radius):
+        self.pos=pygame.mouse.get_pos()
+        pygame.draw.circle(screen,self.color,self.pos,self.radius)
+
 
 Object=Circle("white",30,30,15)
-
+Object2=Circle("white",30,30,15)
 while True:
 
     for event in pygame.event.get():
@@ -26,3 +30,17 @@ while True:
         elif event.type==pygame.MOUSEBUTTONUP:
             Object.draw_again(15)
             pygame.display.update()
+        elif event.type==pygame.MOUSEMOTION:
+            Object2.draw_with_pos(15)
+            pygame.display.update()
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
