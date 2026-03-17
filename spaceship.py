@@ -28,21 +28,44 @@ def drawing(Rect,Rect2,yellow_spaceship_health,red_spaceship_health,bullet_yello
         pygame.draw.rect(screen,"yellow",i)
     for i in bullet_red:
         pygame.draw.rect(screen,"red",i)
+    
     pygame.display.update()
-def move_bullets(bullet_red,bullet_yellow,Rect,Rect2):
+
+def move_bullets(bullet_red,bullet_yellow,Rect,Rect2,yellow_spaceship_health,red_spaceship_health):
+    
     for i in bullet_red:
         i.x=i.x-10
         if Rect2.colliderect(i):
             bullet_red.remove(i)
+            yellow_spaceship_health=yellow_spaceship_health-1
+            font.render("Health="+str(yellow_spaceship_health),False,"white")
         elif i.x<0:
             bullet_red.remove(i)
-
+    if yellow_spaceship_health<=0:
+        global red_text
+        red_text=font.render("Red wins",False,"white")
+        screen.blit(red_text,(50,50))
+        yellow_spaceship_health=0
+        red_spaceship_health=10
+        pygame.display.update()
     for i in bullet_yellow:
         i.x=i.x+10
-        if Rect.colliderect(i):
+        if i.colliderect(Rect):
             bullet_yellow.remove(i)
+            red_spaceship_health=red_spaceship_health-1
+            font.render("Health="+str(red_spaceship_health),False,"white")
         elif i.x>1000:
             bullet_yellow.remove(i)
+            red_spaceship_health=red_spaceship_health
+    if red_spaceship_health<=0:
+        global yellow_text
+        yellow_text=font.render("Yellow wins",False,"white")
+        screen.blit(yellow_text,(50,50))
+        red_spaceship_health=0
+        yellow_spaceship_health=10
+        pygame.display.update()
+    return yellow_spaceship_health,red_spaceship_health
+
 
     
 bullet_red=[]
@@ -79,7 +102,9 @@ while True:
             elif event.key==pygame.K_RCTRL and len(bullet_red)<3:
                 bullet2=pygame.Rect(Rect.x,Rect.y+spaceship_height/2,10,3)
                 bullet_red.append(bullet2)
-            move_bullets(bullet_red,bullet_yellow,Rect,Rect2)
+    
+    yellow_spaceship_health,red_spaceship_health=move_bullets(bullet_red,bullet_yellow,Rect,Rect2,yellow_spaceship_health,red_spaceship_health)
+    
 
 
 
