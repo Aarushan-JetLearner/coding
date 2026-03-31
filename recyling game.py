@@ -1,6 +1,6 @@
 import pygame,random
 pygame.init()
-screen=pygame.display.set_mode((1000,500))
+screen=pygame.display.set_mode((1000,600))
 class bin(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -13,17 +13,28 @@ class plastic_bag(pygame.sprite.Sprite):
         self.image=pygame.image.load("C:/Users/User/OneDrive/Pro game developer/plastic rec game.png")
         self.image=pygame.transform.scale(self.image,(40,60))
         self.rect=self.image.get_rect()
+class bg(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image=pygame.image.load("C:/Users/User/OneDrive/Pro game developer/bground rec game.png")
+        self.image=pygame.transform.scale(self.image,(1000,600))
+        self.rect=self.image.get_rect()
 recylable=pygame.sprite.Group()
 non_recylable=pygame.sprite.Group()
 all_sprites=pygame.sprite.Group()
 
 object_bin=bin()
+bg2=bg()
+all_sprites.add(bg2)
 for i in range(20):
+    
     object_non_recylable=plastic_bag()
     object_non_recylable.rect.x=random.randint(0,1000)
     object_non_recylable.rect.y=random.randint(0,500)
     non_recylable.add(object_non_recylable)
     all_sprites.add(object_non_recylable)
+
+
 all_sprites.add(object_bin)
 list=["C:/Users/User/OneDrive/Pro game developer/item1 rec game.png","C:/Users/User/OneDrive/Pro game developer/item2 rec game.png","C:/Users/User/OneDrive/Pro game developer/item3 rec game.png"]
 class rec(pygame.sprite.Sprite):
@@ -38,7 +49,16 @@ for i in range(30):
     object_recylable.rect.y=random.randint(0,500)
     recylable.add(object_recylable)
     all_sprites.add(object_recylable)
+
+score=0    
 while True:
+    variable=pygame.sprite.spritecollide(object_bin,non_recylable,True)
+    variable2=pygame.sprite.spritecollide(object_bin,recylable,True)
+
+        
+
+    
+
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             pygame.quit()
@@ -55,6 +75,18 @@ while True:
             if event.key==pygame.K_DOWN and object_bin.rect.y<1000:
                 object_bin.rect.y=object_bin.rect.y+10
             
-    screen.fill("black")
+    
     all_sprites.draw(screen)
+    for i in variable:
+        score=score-1
+        font=pygame.font.SysFont("Arial",35)
+        scores=font.render("Score="+str(score),False,"white")
+        screen.blit(scores,(50,50))
+        
+    for i in variable2:
+        score=score+1
+        font=pygame.font.SysFont("Arial",35)
+        scores=font.render("Score="+str(score),False,"white")
+        screen.blit(scores,(50,50))
+    
     pygame.display.update()
