@@ -52,9 +52,7 @@ for i in range(30):
 
 score=0    
 while True:
-    variable=pygame.sprite.spritecollide(object_bin,non_recylable,True)
-    variable2=pygame.sprite.spritecollide(object_bin,recylable,True)
-
+    
         
 
     
@@ -77,16 +75,18 @@ while True:
             
     
     all_sprites.draw(screen)
+    variable=pygame.sprite.spritecollide(object_bin,non_recylable,True)
+    variable2=pygame.sprite.spritecollide(object_bin,recylable,True)
+
     for i in variable:
         score=score-1
-        font=pygame.font.SysFont("Arial",35)
-        scores=font.render("Score="+str(score),False,"white")
-        screen.blit(scores,(50,50))
+    font=pygame.font.SysFont("Arial",35)
+    scores=font.render("Score="+str(score),False,"white")
+    screen.blit(scores,(50,50))
         
     for i in variable2:
         score=score+1
-        font=pygame.font.SysFont("Arial",35)
-        scores=font.render("Score="+str(score),False,"white")
-        screen.blit(scores,(50,50))
+        
+
     
     pygame.display.update()
