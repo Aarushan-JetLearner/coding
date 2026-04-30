@@ -1,4 +1,4 @@
-import pygame
+import pygame,random
 pygame.init()
 screen=pygame.display.set_mode((1000,500))
 bg=pygame.image.load("C:/Users/User/OneDrive/Pro game developer/bg.png")
@@ -11,6 +11,9 @@ screen.blit(pipes,(0,0))
 groundx=0
 game_over=False
 flying=False
+pipe_frequency=2000
+last_pipe=pygame.time.get_ticks()-pipe_frequency
+
 class bird(pygame.sprite.Sprite):
     def __init__(self,x,y):
         super().__init__()
@@ -65,28 +68,20 @@ class pipes(pygame.sprite.Sprite):
             self.rect.bottomleft=[x,y]
         if top_bottom==1:#up
             self.rect.topleft=[x,y]
-
-
-
-
-            
-
-          
-
-
-                                
-
-                
-
+    def update(self):
         
-
+        self.rect.x=self.rect.x-10
+        if self.rect.x<0:
+            self.kill()
+        
 
 bird_group=pygame.sprite.Group()
 pipe_group=pygame.sprite.Group()
+
 bird_object=bird(250,250)
 bird_group.add(bird_object)
-pipe_object=pipes(500,0,1)
-pipe_group.add(pipe_object)
+
+
 clock=pygame.time.Clock()
 while True:
     clock.tick(60)
@@ -99,6 +94,21 @@ while True:
             flying=True
     screen.blit(ground,(groundx,450))
     if game_over==False:
+        time_get=pygame.time.get_ticks()
+        
+        if time_get-last_pipe>pipe_frequency:
+            random_distance=random.randint(-150,150)
+            pipe_object=pipes(1000,250+random_distance,0)
+            pipe_object2=pipes(1000,250+random_distance,1)
+            pipe_group.add(pipe_object)
+            pipe_group.add(pipe_object2)
+            last_pipe=time_get
+        pipe_group.update()        
+        
+        
+        
+
+
         groundx=groundx-1
         if abs(groundx)>20:
            groundx=0
@@ -111,4 +121,5 @@ while True:
     pipe_group.draw(screen)
     
     bird_object.update()
+    pipe_object.update()
     pygame.display.update()
