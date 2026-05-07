@@ -36,7 +36,13 @@ class fruits(pygame.sprite.Sprite):
         self.rect.x=random.randint(0,1000)
     def update(self):
         if self.rect.y<500:
+            
+
             self.rect.y=self.rect.y+20
+            
+        elif self.rect.y>500:
+            
+            
 
         
 screen.blit(bg,(0,0))       
@@ -66,9 +72,9 @@ while True:
                 object_basket.rect.x=object_basket.rect.x+30
                 screen.blit(bg,(0,0))
          
-            
+        screen.blit(bg,(0,0))    
         group_basket.draw(screen)
         group_fruits.draw(screen)
-        
+        object_fruits.update()
         pygame.display.update()
         

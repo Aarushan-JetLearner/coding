@@ -12,8 +12,11 @@ groundx=0
 game_over=False
 flying=False
 pipe_frequency=2000
-last_pipe=pygame.time.get_ticks()-pipe_frequency
 
+last_pipe=pygame.time.get_ticks()-pipe_frequency
+pipe_gap=150
+pass_pipe=False
+score=0
 class bird(pygame.sprite.Sprite):
     def __init__(self,x,y):
         super().__init__()
@@ -65,9 +68,9 @@ class pipes(pygame.sprite.Sprite):
         self.rect=self.image.get_rect()
         if top_bottom==0:#down
             self.image=pygame.transform.rotate(self.image,180)
-            self.rect.bottomleft=[x,y]
+            self.rect.bottomleft=[x,y-(pipe_gap/2)]
         if top_bottom==1:#up
-            self.rect.topleft=[x,y]
+            self.rect.topleft=[x,y+(pipe_gap/2)]
     def update(self):
         
         self.rect.x=self.rect.x-10
@@ -81,12 +84,18 @@ pipe_group=pygame.sprite.Group()
 bird_object=bird(250,250)
 bird_group.add(bird_object)
 
+def draw_text(score,font):
+    scores=font.render("Score="+score,False,"white")
+    screen.blit(scores,(50,50))
 
+
+font=pygame.font.SysFont("Arial",35)
 clock=pygame.time.Clock()
-while True:
+while game_over==False:
+
     clock.tick(60)
     screen.blit(bg,(0,0))
-
+    draw_text(str(score),font)
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             pygame.quit()
@@ -98,20 +107,36 @@ while True:
         
         if time_get-last_pipe>pipe_frequency:
             random_distance=random.randint(-150,150)
-            pipe_object=pipes(1000,250+random_distance,0)
-            pipe_object2=pipes(1000,250+random_distance,1)
+            pipe_object=pipes(1000,250-random_distance,0)
+            pipe_object2=pipes(1000,250-random_distance,1)
             pipe_group.add(pipe_object)
+            
             pipe_group.add(pipe_object2)
             last_pipe=time_get
+        
         pipe_group.update()        
-        
+        if pipe_group:
+            if bird_group.sprites()[0].rect.left>pipe_group.sprites()[0].rect.left and bird_group.sprites()[0].rect.right<pipe_group.sprites()[0].rect.right and pass_pipe==False:
+                pass_pipe=True
+            if pass_pipe==True:
+                if bird_group.sprites()[0].rect.left>pipe_group.sprites()[0].rect.right:
+                    score=score+1
+                    pass_pipe=False
+            elif pygame.sprite.groupcollide(bird_group,pipe_group,False,False) or bird_object.rect.top<0:
+                game_over=True
+                    
+                    #scores=font.render("Score="+str(score),False,"white")
+
+                    
         
         
 
-
+    
         groundx=groundx-1
+    
         if abs(groundx)>20:
            groundx=0
+    
         
     if bird_object.rect.bottom>=450:
         game_over=True
@@ -121,5 +146,6 @@ while True:
     pipe_group.draw(screen)
     
     bird_object.update()
-    pipe_object.update()
+    
+    #pipe_object.update()
     pygame.display.update()
